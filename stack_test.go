@@ -1,9 +1,10 @@
 package stack
 
 import (
-	"ds/stack"
 	"fmt"
 	"testing"
+
+	"github.com/edikrisnayana/ds/stack"
 )
 
 func TestPushSecondPushSuccess(t *testing.T) {
