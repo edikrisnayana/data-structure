@@ -3,49 +3,57 @@ package stack
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/edikrisnayana/data-structure/intf"
 )
 
-type Stack interface {
-	Size() int
-	IsEmpty() bool
-	Push(item T) error
-	Pop() (T, error)
+type stack struct {
+	itemType reflect.Type
+	items    []intf.T
 }
 
-type stackItems []T
-
-func NewStack() Stack {
-	var stack Stack = new(stackItems)
+func Init() intf.Stack {
+	var stack intf.Stack = new(stack)
 	return stack
 }
 
-func (s *stackItems) Size() int {
-	return len(*s)
-}
-
-func (s *stackItems) IsEmpty() bool {
+func (s *stack) IsEmpty() bool {
 	return s.Size() == 0
 }
 
-func (s *stackItems) Push(item T) error {
-	if !s.IsEmpty() {
-		firstItemType := reflect.ValueOf((*s)[0]).Type()
-		if firstItemType != reflect.ValueOf(item).Type() {
-			return fmt.Errorf("item type is not consistent. Should use %v", firstItemType)
-		}
+func (s *stack) Peek() (intf.T, error) {
+	if s.IsEmpty() {
+		return nil, fmt.Errorf("stack is empty")
 	}
-	*s = append(*s, item)
-	return nil
+
+	return s.items[s.Size()-1], nil
 }
 
-func (s *stackItems) Pop() (T, error) {
+func (s *stack) Pop() (intf.T, error) {
 	if s.IsEmpty() {
 		return nil, fmt.Errorf("stack is empty")
 	}
 
 	index := s.Size() - 1
-	item := (*s)[index]
-	(*s)[index] = nil
-	*s = (*s)[:index]
+	item := (s.items)[index]
+	(s.items)[index] = nil
+	s.items = s.items[:index]
 	return item, nil
+}
+
+func (s *stack) Push(item intf.T) error {
+	if s.itemType == nil {
+		s.itemType = reflect.ValueOf(item).Type()
+	}
+
+	if s.itemType != nil && s.itemType != reflect.ValueOf(item).Type() {
+		return fmt.Errorf("item type is not consistent. Should use %v", s.itemType)
+	}
+
+	s.items = append(s.items, item)
+	return nil
+}
+
+func (s *stack) Size() int {
+	return len(s.items)
 }

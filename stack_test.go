@@ -1,4 +1,4 @@
-package stack
+package test
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 	"github.com/edikrisnayana/data-structure/stack"
 )
 
-func TestPushSecondPushSuccess(t *testing.T) {
-	stack := stack.NewStack()
+func TestStackPushSecondPushSuccess(t *testing.T) {
+	stack := stack.Init()
 	err := stack.Push(1)
 	if err != nil {
 		t.Fatalf(err.Error())
@@ -19,8 +19,8 @@ func TestPushSecondPushSuccess(t *testing.T) {
 	}
 }
 
-func TestPushSecondPushMismacthType(t *testing.T) {
-	stack := stack.NewStack()
+func TestStackPushSecondPushMismatchType(t *testing.T) {
+	stack := stack.Init()
 	err := stack.Push(1)
 	if err != nil {
 		t.Fatalf(err.Error())
@@ -32,8 +32,8 @@ func TestPushSecondPushMismacthType(t *testing.T) {
 	}
 }
 
-func TestPopSuccess(t *testing.T) {
-	stack := stack.NewStack()
+func TestStackPopSuccess(t *testing.T) {
+	stack := stack.Init()
 	stack.Push(1)
 	stack.Push(2)
 	currSize := stack.Size()
@@ -47,8 +47,8 @@ func TestPopSuccess(t *testing.T) {
 	}
 }
 
-func TestPopEmptyStack(t *testing.T) {
-	stack := stack.NewStack()
+func TestStackPopEmptyStack(t *testing.T) {
+	stack := stack.Init()
 	_, err := stack.Pop()
 	fmt.Println(err.Error())
 	if err == nil {
